@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MonguiPlay Games - Tu tienda de videojuegos favorita. Descubre los mejores titulos en accion, aventura, deportes y RPG.">
+  <meta name="theme-color" content="#166534">
+  <title>MonguiPlay Games - Tu Tienda de Videojuegos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========== CSS RESET & VARIABLES ========== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1318;
+      --bg-card: #141a21;
+      --bg-secondary: #1a222b;
+      --fg: #e8ecf1;
+      --fg-muted: #7a8899;
+      --primary: #22c55e;
+      --primary-dark: #16a34a;
+      --primary-fg: #0a1a0f;
+      --border: #1e2a36;
+      --destructive: #ef4444;
+      --radius: 0.75rem;
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-display: 'Space Grotesk', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--fg);
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; font-family: inherit; }
+    input, textarea { font-family: inherit; }
+
+    /* ========== UTILITY CLASSES ========== */
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* ========== HEADER ========== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(20, 26, 33, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--fg);
+      white-space: nowrap;
+    }
+
+    .logo svg { color: var(--primary); }
+    .logo span { color: var(--primary); }
+
+    .search-box {
+      flex: 1;
+      max-width: 420px;
+      position: relative;
+      display: none;
+    }
+
+    .search-box svg {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--fg-muted);
+      width: 16px; height: 16px;
+      pointer-events: none;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--fg);
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box input::placeholder { color: var(--fg-muted); }
+    .search-box input:focus { border-color: var(--primary); }
+
+    .header-actions { display: flex; align-items: center; gap: 0.5rem; }
+
+    .mobile-search {
+      padding: 0 1rem 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .mobile-search .search-box { display: block; max-width: 100%; }
+
+    /* ========== BUTTONS ========== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.375rem;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-weight: 500;
+      border: none;
+      transition: all 0.2s;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--primary-fg);
+    }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--fg);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { background: var(--bg-secondary); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--fg-muted);
+      border: none;
+    }
+    .btn-ghost:hover { color: var(--fg); background: var(--bg-secondary); }
+
+    .btn-ghost.active,
+    .btn-outline.active {
+      background: var(--primary);
+      color: var(--primary-fg);
+      border-color: var(--primary);
+    }
+
+    .btn-sm { padding: 0.375rem 0.75rem; font-size: 0.8125rem; }
+    .btn-icon { padding: 0.375rem; min-width: 28px; min-height: 28px; }
+
+    .btn-destructive {
+      background: transparent;
+      color: var(--fg-muted);
+      border: none;
+    }
+    .btn-destructive:hover { color: var(--destructive); }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge-primary {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    .badge-secondary {
+      background: var(--bg-secondary);
+      color: var(--fg);
+      border: 1px solid var(--border);
+    }
+    .badge-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--fg-muted);
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -6px; right: -6px;
+      background: var(--primary);
+      color: var(--primary-fg);
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      font-size: 0.625rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .user-info {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--fg);
+    }
+
+    .user-info svg { color: var(--primary); width: 16px; height: 16px; }
+
+    /* ========== HERO ========== */
+    .hero {
+      position: relative;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top, rgba(34,197,94,0.08), transparent 50%);
+    }
+
+    .hero-inner {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 3rem 1rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .hero-icon {
+      width: 56px; height: 56px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 1rem;
+      background: rgba(34, 197, 94, 0.1);
+      margin-bottom: 1rem;
+    }
+
+    .hero-icon svg { color: var(--primary); width: 28px; height: 28px; }
+
+    .hero h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      text-wrap: balance;
+      color: var(--fg);
+    }
+
+    .hero p {
+      margin-top: 1rem;
+      max-width: 640px;
+      color: var(--fg-muted);
+      line-height: 1.6;
+    }
+
+    .hero-features {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      font-size: 0.875rem;
+      color: var(--fg-muted);
+    }
+
+    .hero-features div { display: flex; align-items: center; gap: 0.5rem; }
+    .hero-features svg { color: var(--primary); width: 16px; height: 16px; }
+
+    /* ========== CATEGORY NAV ========== */
+    nav[aria-label="Categorias de videojuegos"] {
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+
+    .category-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding: 0.75rem 1rem;
+      max-width: 1280px;
+      margin: 0 auto;
+      scrollbar-width: none;
+    }
+    .category-bar::-webkit-scrollbar { display: none; }
+
+    /* ========== GAME GRID ========== */
+    .catalog {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    .catalog-header { margin-bottom: 1.5rem; }
+    .catalog-header h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--fg);
+    }
+    .catalog-header p {
+      margin-top: 0.25rem;
+      font-size: 0.875rem;
+      color: var(--fg-muted);
+    }
+
+    .game-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 1rem;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+    }
+
+    .empty-state svg { color: var(--fg-muted); width: 48px; height: 48px; margin-bottom: 1rem; }
+    .empty-state p { color: var(--fg); font-size: 1.125rem; font-weight: 500; }
+    .empty-state span { color: var(--fg-muted); font-size: 0.875rem; margin-top: 0.25rem; }
+
+    /* ========== GAME CARD ========== */
+    .game-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .game-card:hover {
+      border-color: rgba(34, 197, 94, 0.4);
+      box-shadow: 0 4px 24px rgba(34, 197, 94, 0.06);
+    }
+
+    .game-card-img {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+    }
+
+    .game-card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .game-card:hover .game-card-img img { transform: scale(1.05); }
+
+    .game-card-img .badge {
+      position: absolute;
+      top: 0.5rem; left: 0.5rem;
+      backdrop-filter: blur(4px);
+    }
+
+    .out-of-stock-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(15, 19, 24, 0.75);
+      font-weight: 600;
+      color: var(--destructive);
+      font-size: 1rem;
+    }
+
+    .game-card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1rem;
+    }
+
+    .game-card-body h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--fg);
+    }
+
+    .game-card-body .desc {
+      font-size: 0.875rem;
+      color: var(--fg-muted);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .game-card-body .stock-info {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+    }
+    .game-card-body .stock-info svg { width: 14px; height: 14px; }
+
+    .game-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.25rem;
+    }
+
+    .game-price {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .game-card-footer .login-hint {
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 2rem 1rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .footer-logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; font-size: 0.875rem; }
+    .footer-logo svg { color: var(--primary); width: 20px; height: 20px; }
+    .footer-copy { text-align: center; font-size: 0.75rem; color: var(--fg-muted); }
+    .footer-cats { display: flex; gap: 1rem; font-size: 0.75rem; color: var(--fg-muted); }
+
+    /* ========== MODAL / OVERLAY ========== */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .overlay.open { display: flex; }
+
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 460px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .modal-lg { max-width: 900px; }
+
+    .modal-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--fg);
+      margin-bottom: 1rem;
+    }
+    .modal-title svg { color: var(--primary); width: 20px; height: 20px; }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      background: none; border: none;
+      color: var(--fg-muted);
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 4px;
+    }
+    .modal-close:hover { color: var(--fg); background: var(--bg-secondary); }
+    .modal-close svg { width: 20px; height: 20px; }
+
+    /* ========== TABS ========== */
+    .tabs-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      padding: 0.25rem;
+      gap: 0.25rem;
+      margin-bottom: 1rem;
+    }
+    .tabs-list-3 { grid-template-columns: repeat(3, 1fr); }
+
+    .tab-btn {
+      padding: 0.5rem 0.75rem;
+      border-radius: calc(var(--radius) - 0.125rem);
+      border: none;
+      background: transparent;
+      color: var(--fg-muted);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.375rem;
+    }
+    .tab-btn svg { width: 14px; height: 14px; }
+    .tab-btn:hover { color: var(--fg); }
+    .tab-btn.active {
+      background: var(--primary);
+      color: var(--primary-fg);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ========== FORM ========== */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.375rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .form-group label {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--fg);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      padding: 0.5rem 0.75rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--fg);
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--fg-muted); }
+
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--primary); }
+
+    .form-group textarea { resize: vertical; min-height: 56px; }
+
+    .form-error {
+      font-size: 0.75rem;
+      color: var(--destructive);
+    }
+
+    .alert {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .alert svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    .alert-error {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--destructive);
+    }
+    .alert-success {
+      background: rgba(34, 197, 94, 0.1);
+      color: var(--primary);
+    }
+
+    .test-accounts {
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      padding: 0.75rem;
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+      margin-top: 0.75rem;
+    }
+    .test-accounts strong { color: var(--fg); display: block; margin-bottom: 0.25rem; font-size: 0.8125rem; }
+
+    /* ========== SHEET (Cart Sidebar) ========== */
+    .sheet-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.5);
+    }
+    .sheet-overlay.open { display: block; }
+
+    .sheet {
+      position: fixed;
+      top: 0; right: -100%;
+      width: 100%;
+      max-width: 480px;
+      height: 100vh;
+      background: var(--bg-card);
+      border-left: 1px solid var(--border);
+      z-index: 201;
+      display: flex;
+      flex-direction: column;
+      transition: right 0.3s ease;
+      overflow: hidden;
+    }
+    .sheet.open { right: 0; }
+
+    .sheet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sheet-header h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .sheet-header h3 svg { color: var(--primary); width: 20px; height: 20px; }
+
+    .sheet-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem 1.5rem;
+    }
+
+    .sheet-footer {
+      border-top: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+    }
+
+    .cart-item {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 0.75rem;
+    }
+
+    .cart-item-img {
+      width: 96px;
+      height: 64px;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    .cart-item-info { flex: 1; display: flex; flex-direction: column; gap: 0.25rem; }
+    .cart-item-info h4 { font-size: 0.875rem; font-weight: 600; color: var(--fg); }
+    .cart-item-info .item-price { font-size: 0.875rem; font-weight: 500; color: var(--primary); }
+
+    .cart-qty {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+    .cart-qty span { font-size: 0.875rem; font-weight: 500; min-width: 20px; text-align: center; }
+
+    .cart-item-end {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .cart-item-total { font-size: 0.875rem; font-weight: 700; color: var(--fg); }
+
+    .cart-total-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+    .cart-total-row span:first-child { font-size: 1.1rem; font-weight: 600; }
+    .cart-total-row span:last-child { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+
+    .cart-actions { display: flex; gap: 0.5rem; }
+    .cart-actions .btn { flex: 1; }
+
+    .cart-empty, .purchase-success {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      gap: 0.75rem;
+    }
+    .cart-empty svg, .purchase-success svg { width: 64px; height: 64px; color: var(--fg-muted); }
+    .purchase-success svg { color: var(--primary); }
+    .cart-empty p, .purchase-success h4 { font-size: 1.1rem; font-weight: 500; color: var(--fg); }
+    .cart-empty span, .purchase-success p { font-size: 0.875rem; color: var(--fg-muted); }
+
+    .purchase-success-icon {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: rgba(34,197,94,0.1);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .purchase-success-icon svg { width: 40px; height: 40px; color: var(--primary); }
+
+    /* ========== ADMIN PANEL ========== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .stat-card {
+      padding: 0.75rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .stat-card .stat-label {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+    }
+    .stat-card .stat-label svg { width: 16px; height: 16px; color: var(--primary); }
+    .stat-card .stat-value { font-size: 1.5rem; font-weight: 700; margin-top: 0.25rem; color: var(--fg); }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      max-height: 360px;
+      overflow-y: auto;
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.8125rem; }
+    th {
+      text-align: left;
+      padding: 0.625rem 0.75rem;
+      color: var(--fg-muted);
+      font-weight: 500;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: var(--bg-card);
+    }
+    td {
+      padding: 0.625rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--fg);
+    }
+    tr:hover td { background: rgba(26, 34, 43, 0.5); }
+
+    .table-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1rem;
+    }
+    .table-empty svg { width: 40px; height: 40px; color: var(--fg-muted); margin-bottom: 0.75rem; }
+    .table-empty p { color: var(--fg); font-weight: 500; }
+    .table-empty span { color: var(--fg-muted); font-size: 0.8125rem; }
+
+    /* ========== SVG ICONS ========== */
+    .icon { display: inline-flex; vertical-align: middle; }
+
+    /* ========== RESPONSIVE ========== */
+    @media (min-width: 640px) {
+      .game-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (min-width: 768px) {
+      .search-box { display: block; }
+      .mobile-search { display: none; }
+      .user-info { display: flex; }
+      .stats-grid { grid-template-columns: repeat(4, 1fr); }
+      .footer-inner { flex-direction: row; justify-content: space-between; }
+    }
+
+    @media (min-width: 1024px) {
+      .game-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (min-width: 1280px) {
+      .game-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HEADER ==================== -->
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.544-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
+        MonguiPlay <span>Games</span>
+      </div>
+
+      <div class="search-box">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="searchDesktop" placeholder="Buscar videojuegos..." aria-label="Buscar videojuegos">
+      </div>
+
+      <div class="header-actions" id="headerActions">
+        <!-- Dynamically rendered -->
+      </div>
+    </div>
+    <div class="mobile-search">
+      <div class="search-box">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="searchMobile" placeholder="Buscar videojuegos..." aria-label="Buscar videojuegos">
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.544-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
+      </div>
+      <h2>Tu tienda de videojuegos favorita</h2>
+      <p>Descubre los mejores titulos en accion, aventura, deportes y RPG. Precios increibles y catalogo actualizado para los verdaderos gamers.</p>
+      <div class="hero-features">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <span>Entrega digital inmediata</span>
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+          <span>Compra segura</span>
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7.7 4 8 7 8 7s1-3 3.5-3a2.5 2.5 0 0 1 0 5H10"/><path d="M6 9h6v12H6z"/><path d="M12 9h6v12h-6z"/><path d="M18 9h-1.5a2.5 2.5 0 0 1 0-5c3.2 0 3.5 3 3.5 3s1-3 3.5-3a2.5 2.5 0 0 1 0 5H22"/><path d="m2 9 10 3"/><path d="m12 12 10-3"/></svg>
+          <span>Los mejores precios</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CATEGORY NAV ==================== -->
+  <nav aria-label="Categorias de videojuegos">
+    <div class="category-bar" id="categoryBar">
+      <!-- Dynamically rendered -->
+    </div>
+  </nav>
+
+  <!-- ==================== MAIN CATALOG ==================== -->
+  <main>
+    <section class="catalog" aria-label="Catalogo de videojuegos">
+      <div class="catalog-header">
+        <h2 id="catalogTitle">Todos los Juegos</h2>
+        <p id="catalogCount"></p>
+      </div>
+      <div class="game-grid" id="gameGrid">
+        <!-- Dynamically rendered -->
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.544-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
+        MonguiPlay Games
+      </div>
+      <p class="footer-copy">2026 MonguiPlay Games. Todos los derechos reservados. Departamento de Ventas Online.</p>
+      <div class="footer-cats">
+        <span>Accion</span>
+        <span>Aventura</span>
+        <span>Deportes</span>
+        <span>RPG</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== LOGIN MODAL ==================== -->
+  <div class="overlay" id="loginOverlay" role="dialog" aria-modal="true" aria-label="Inicio de sesion y registro">
+    <div class="modal">
+      <button class="modal-close" onclick="closeLogin()" aria-label="Cerrar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+      <div class="modal-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.544-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
+        MonguiPlay Games
+      </div>
+
+      <div class="tabs-list" id="authTabs">
+        <button class="tab-btn active" onclick="switchAuthTab('login')">Iniciar Sesion</button>
+        <button class="tab-btn" onclick="switchAuthTab('register')">Registrarse</button>
+      </div>
+
+      <!-- Login Tab -->
+      <div class="tab-panel active" id="loginPanel">
+        <div id="loginAlert"></div>
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="loginEmail">Correo Electronico</label>
+            <input type="email" id="loginEmail" placeholder="correo@ejemplo.com">
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Contrasena</label>
+            <input type="password" id="loginPassword" placeholder="Tu contrasena">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+            Iniciar Sesion
+          </button>
+        </form>
+        <div class="test-accounts">
+          <strong>Cuentas de prueba:</strong>
+          Admin: admin@monguiplay.com / admin123<br>
+          Usuario: juan@correo.com / user123
+        </div>
+      </div>
+
+      <!-- Register Tab -->
+      <div class="tab-panel" id="registerPanel">
+        <div id="registerAlert"></div>
+        <form onsubmit="handleRegister(event)">
+          <div class="form-group">
+            <label for="regNombre">Nombre Completo</label>
+            <input type="text" id="regNombre" placeholder="Tu nombre completo">
+            <span class="form-error" id="errNombre"></span>
+          </div>
+          <div class="form-group">
+            <label for="regCedula">Cedula</label>
+            <input type="text" id="regCedula" placeholder="Tu numero de cedula">
+            <span class="form-error" id="errCedula"></span>
+          </div>
+          <div class="form-group">
+            <label for="regCorreo">Correo Electronico</label>
+            <input type="email" id="regCorreo" placeholder="correo@ejemplo.com">
+            <span class="form-error" id="errCorreo"></span>
+          </div>
+          <div class="form-group">
+            <label for="regDireccion">Direccion</label>
+            <textarea id="regDireccion" placeholder="Tu direccion" rows="2"></textarea>
+            <span class="form-error" id="errDireccion"></span>
+          </div>
+          <div class="form-group">
+            <label for="regPassword">Contrasena</label>
+            <input type="password" id="regPassword" placeholder="Crea una contrasena">
+            <span class="form-error" id="errPassword"></span>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+            Registrarse
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CART SHEET ==================== -->
+  <div class="sheet-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <aside class="sheet" id="cartSheet" role="dialog" aria-modal="true" aria-label="Carrito de compras">
+    <div class="sheet-header">
+      <h3>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+        Carrito de Compras
+      </h3>
+      <button class="modal-close" onclick="closeCart()" aria-label="Cerrar carrito" style="position:static;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <div class="sheet-body" id="cartBody">
+      <!-- Dynamically rendered -->
+    </div>
+    <div class="sheet-footer" id="cartFooter" style="display:none;">
+      <div class="cart-total-row">
+        <span>Total:</span>
+        <span id="cartTotalDisplay">$0.00</span>
+      </div>
+      <div class="cart-actions">
+        <button class="btn btn-outline" onclick="clearCart()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+          Vaciar
+        </button>
+        <button class="btn btn-primary" onclick="handleCheckout()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+          Pagar
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==================== ADMIN MODAL ==================== -->
+  <div class="overlay" id="adminOverlay" role="dialog" aria-modal="true" aria-label="Panel de administracion">
+    <div class="modal modal-lg">
+      <button class="modal-close" onclick="closeAdmin()" aria-label="Cerrar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+      <div class="modal-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+        Panel de Administracion
+      </div>
+
+      <div class="stats-grid" id="adminStats">
+        <!-- Dynamically rendered -->
+      </div>
+
+      <div class="tabs-list tabs-list-3" id="adminTabs">
+        <button class="tab-btn active" onclick="switchAdminTab('purchases')">Compras</button>
+        <button class="tab-btn" onclick="switchAdminTab('activity')">Actividad</button>
+        <button class="tab-btn" onclick="switchAdminTab('users')">Usuarios</button>
+      </div>
+
+      <div class="tab-panel active" id="purchasesPanel"></div>
+      <div class="tab-panel" id="activityPanel"></div>
+      <div class="tab-panel" id="usersPanel"></div>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // ==================== DATA ====================
+    const gamesData = [
+      { id: 1, name: "Shadow Strike", description: "Un juego de accion futurista con combates epicos y armas de energia. Sumergete en misiones peligrosas.", price: 59.99, image: "/games/shadow-strike.jpg", category: "Accion", stock: 15 },
+      { id: 2, name: "Lost Realms", description: "Explora reinos perdidos llenos de misterios, trampas antiguas y tesoros ocultos en un vasto mundo abierto.", price: 49.99, image: "/games/lost-realms.jpg", category: "Aventura", stock: 20 },
+      { id: 3, name: "Turbo Racing", description: "Carreras de alta velocidad con vehiculos futuristas en circuitos urbanos llenos de neon y adrenalina.", price: 39.99, image: "/games/turbo-racing.jpg", category: "Deportes", stock: 25 },
+      { id: 4, name: "Dragon's Legacy", description: "Un RPG epico donde debes forjar tu destino como el ultimo cazador de dragones en un mundo medieval.", price: 69.99, image: "/games/dragons-legacy.jpg", category: "RPG", stock: 10 },
+      { id: 5, name: "Cyber Warfare", description: "Accion tactica en un mundo cyberpunk. Lidera tu escuadron a traves de misiones de alto riesgo.", price: 54.99, image: "/games/cyber-warfare.jpg", category: "Accion", stock: 18 },
+      { id: 6, name: "Ultimate Goal", description: "El simulador de futbol definitivo. Construye tu equipo, entrena jugadores y conquista el campeonato.", price: 44.99, image: "/games/ultimate-goal.jpg", category: "Deportes", stock: 30 },
+      { id: 7, name: "Mystic Islands", description: "Una aventura de puzzle en islas flotantes con templos antiguos y cristales misteriosos por descubrir.", price: 34.99, image: "/games/mystic-islands.jpg", category: "Aventura", stock: 22 },
+      { id: 8, name: "Stellar Odyssey", description: "Un RPG espacial de mundo abierto. Explora galaxias, forja alianzas y decide el destino del universo.", price: 64.99, image: "/games/stellar-odyssey.jpg", category: "RPG", stock: 12 },
+    ];
+
+    const defaultUsers = [
+      { id: "admin-1", nombre: "Administrador", cedula: "1234567890", correo: "admin@monguiplay.com", direccion: "Oficina Central MonguiPlay", password: "admin123", role: "admin" },
+      { id: "user-1", nombre: "Juan Perez", cedula: "9876543210", correo: "juan@correo.com", direccion: "Calle 123, Ciudad", password: "user123", role: "user" },
+    ];
+
+    const categories = ["Accion", "Aventura", "Deportes", "RPG"];
+
+    // ==================== STATE ====================
+    let state = {
+      currentUser: null,
+      users: [...defaultUsers],
+      games: JSON.parse(JSON.stringify(gamesData)),
+      cart: [],
+      purchases: [],
+      activityLog: [],
+      selectedCategory: null,
+      searchQuery: "",
+    };
+
+    // ==================== HELPERS ====================
+    function generateId() { return 'id-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6); }
+    function getDate() { return new Date().toLocaleString("es-CO"); }
+
+    function logActivity(action, detail) {
+      if (!state.currentUser) return;
+      state.activityLog.unshift({
+        id: generateId(),
+        userId: state.currentUser.id,
+        userName: state.currentUser.nombre,
+        action, detail,
+        date: getDate()
+      });
+    }
+
+    function getFilteredGames() {
+      let filtered = state.games;
+      if (state.selectedCategory) {
+        filtered = filtered.filter(g => g.category === state.selectedCategory);
+      }
+      if (state.searchQuery.trim()) {
+        const q = state.searchQuery.toLowerCase();
+        filtered = filtered.filter(g =>
+          g.name.toLowerCase().includes(q) ||
+          g.description.toLowerCase().includes(q) ||
+          g.category.toLowerCase().includes(q)
+        );
+      }
+      return filtered;
+    }
+
+    function getCartTotal() {
+      return state.cart.reduce((sum, item) => sum + item.game.price * item.quantity, 0);
+    }
+
+    function getCartCount() {
+      return state.cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    // ==================== SVG HELPERS ====================
+    const SVG = {
+      user: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+      cart: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>',
+      shield: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>',
+      logout: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>',
+      grid: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>',
+      sword: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/></svg>',
+      compass: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>',
+      trophy: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7.7 4 8 7 8 7s1-3 3.5-3a2.5 2.5 0 0 1 0 5H10"/><path d="M6 9h6v12H6z"/><path d="M12 9h6v12h-6z"/></svg>',
+      wand: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"/><path d="m14 7 3 3"/></svg>',
+      package: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>',
+      minus: '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>',
+      plus: '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>',
+      trash: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>',
+      check: '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>',
+      gamepad: '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.544-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>',
+      packageLg: '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>',
+      shoppingBag: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>',
+      dollar: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+      users: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+      activity: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>',
+      alertCircle: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>',
+      checkCircle: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>',
+    };
+
+    const catIcons = { Accion: SVG.sword, Aventura: SVG.compass, Deportes: SVG.trophy, RPG: SVG.wand };
+
+    // ==================== RENDERING ====================
+    function renderHeader() {
+      const el = document.getElementById('headerActions');
+      if (state.currentUser) {
+        const u = state.currentUser;
+        let html = `<div class="user-info">${SVG.user} <span>${u.nombre}</span>`;
+        if (u.role === 'admin') html += ` <span class="badge badge-primary">Admin</span>`;
+        html += `</div>`;
+
+        if (u.role === 'admin') {
+          html += `<button class="btn btn-outline btn-sm" onclick="openAdmin()" style="border-color:rgba(34,197,94,0.3);color:var(--primary);">${SVG.shield} <span class="hide-mobile">Panel</span></button>`;
+        }
+        if (u.role === 'user') {
+          html += `<button class="btn btn-outline btn-sm" onclick="openCart()" style="position:relative;">${SVG.cart} <span class="hide-mobile">Carrito</span>`;
+          if (getCartCount() > 0) html += `<span class="cart-badge">${getCartCount()}</span>`;
+          html += `</button>`;
+        }
+        html += `<button class="btn btn-ghost btn-sm btn-icon" onclick="handleLogout()">${SVG.logout}</button>`;
+        el.innerHTML = html;
+      } else {
+        el.innerHTML = `<button class="btn btn-primary btn-sm" onclick="openLogin()">${SVG.user} Iniciar Sesion</button>`;
+      }
+    }
+
+    function renderCategories() {
+      const bar = document.getElementById('categoryBar');
+      let html = `<button class="btn btn-sm ${state.selectedCategory === null ? 'active' : 'btn-ghost'}" onclick="selectCategory(null)">${SVG.grid} Todos</button>`;
+      categories.forEach(cat => {
+        html += `<button class="btn btn-sm ${state.selectedCategory === cat ? 'active' : 'btn-ghost'}" onclick="selectCategory('${cat}')">${catIcons[cat]} ${cat}</button>`;
+      });
+      bar.innerHTML = html;
+    }
+
+    function renderGames() {
+      const grid = document.getElementById('gameGrid');
+      const title = document.getElementById('catalogTitle');
+      const count = document.getElementById('catalogCount');
+      const filtered = getFilteredGames();
+
+      title.textContent = state.selectedCategory || 'Todos los Juegos';
+      count.textContent = `${filtered.length} juego${filtered.length !== 1 ? 's' : ''} encontrado${filtered.length !== 1 ? 's' : ''}${state.searchQuery ? ` para "${state.searchQuery}"` : ''}`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="empty-state">${SVG.gamepad}<p>No se encontraron juegos</p><span>Intenta con otra busqueda o categoria</span></div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(game => {
+        const inCart = state.cart.find(i => i.game.id === game.id);
+        const outOfStock = game.stock <= 0;
+        const maxReached = inCart && inCart.quantity >= game.stock;
+
+        let buyBtn = '';
+        if (state.currentUser && state.currentUser.role === 'user') {
+          buyBtn = `<button class="btn btn-primary btn-sm" onclick="addToCart(${game.id})" ${outOfStock || maxReached ? 'disabled' : ''}>${SVG.cart} ${inCart ? 'Agregado' : 'Comprar'}</button>`;
+        } else if (!state.currentUser) {
+          buyBtn = `<span class="login-hint">Inicia sesion para comprar</span>`;
+        }
+
+        return `
+          <article class="game-card">
+            <div class="game-card-img">
+              <img src="${game.image}" alt="Portada del juego ${game.name}" loading="lazy">
+              <span class="badge badge-secondary">${game.category}</span>
+              ${outOfStock ? '<div class="out-of-stock-overlay">Agotado</div>' : ''}
+            </div>
+            <div class="game-card-body">
+              <h3>${game.name}</h3>
+              <p class="desc">${game.description}</p>
+              <div class="stock-info">${SVG.package} Stock: ${game.stock}</div>
+              <div class="game-card-footer">
+                <span class="game-price">$${game.price.toFixed(2)}</span>
+                ${buyBtn}
+              </div>
+            </div>
+          </article>`;
+      }).join('');
+    }
+
+    function renderCart() {
+      const body = document.getElementById('cartBody');
+      const footer = document.getElementById('cartFooter');
+      const totalEl = document.getElementById('cartTotalDisplay');
+
+      if (state.cart.length === 0) {
+        footer.style.display = 'none';
+        body.innerHTML = `<div class="cart-empty">${SVG.packageLg}<p>Tu carrito esta vacio</p><span>Agrega algunos juegos para comenzar</span></div>`;
+        return;
+      }
+
+      footer.style.display = 'block';
+      totalEl.textContent = `$${getCartTotal().toFixed(2)}`;
+
+      body.innerHTML = state.cart.map(item => `
+        <div class="cart-item">
+          <div class="cart-item-img"><img src="${item.game.image}" alt="${item.game.name}"></div>
+          <div class="cart-item-info">
+            <h4>${item.game.name}</h4>
+            <span class="item-price">$${item.game.price.toFixed(2)}</span>
+            <div class="cart-qty">
+              <button class="btn btn-outline btn-icon btn-sm" onclick="updateQty(${item.game.id}, ${item.quantity - 1})">${SVG.minus}</button>
+              <span>${item.quantity}</span>
+              <button class="btn btn-outline btn-icon btn-sm" onclick="updateQty(${item.game.id}, ${item.quantity + 1})" ${item.quantity >= item.game.stock ? 'disabled' : ''}>${SVG.plus}</button>
+            </div>
+          </div>
+          <div class="cart-item-end">
+            <button class="btn btn-destructive btn-icon btn-sm" onclick="removeFromCart(${item.game.id})">${SVG.trash}</button>
+            <span class="cart-item-total">$${(item.game.price * item.quantity).toFixed(2)}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderAdmin() {
+      const totalRevenue = state.purchases.reduce((s, p) => s + p.total, 0);
+
+      document.getElementById('adminStats').innerHTML = `
+        <div class="stat-card"><div class="stat-label">${SVG.shoppingBag} Compras</div><div class="stat-value">${state.purchases.length}</div></div>
+        <div class="stat-card"><div class="stat-label">${SVG.dollar} Ingresos</div><div class="stat-value">$${totalRevenue.toFixed(2)}</div></div>
+        <div class="stat-card"><div class="stat-label">${SVG.users} Usuarios</div><div class="stat-value">${state.users.length}</div></div>
+        <div class="stat-card"><div class="stat-label">${SVG.activity} Actividad</div><div class="stat-value">${state.activityLog.length}</div></div>`;
+
+      // Purchases
+      const pp = document.getElementById('purchasesPanel');
+      if (state.purchases.length === 0) {
+        pp.innerHTML = `<div class="table-empty">${SVG.packageLg}<p>No hay compras registradas</p><span>Las compras apareceran aqui</span></div>`;
+      } else {
+        pp.innerHTML = `<div class="table-wrap"><table><thead><tr><th>ID</th><th>Usuario</th><th>Productos</th><th>Total</th><th>Fecha</th></tr></thead><tbody>${state.purchases.map(p => `
+          <tr>
+            <td style="font-family:monospace;color:var(--fg-muted);font-size:0.75rem;">${p.id.slice(-6)}</td>
+            <td>${p.userName}</td>
+            <td>${p.items.map(i => `<span class="badge badge-outline" style="margin:1px;">${i.game.name} x${i.quantity}</span>`).join(' ')}</td>
+            <td style="font-weight:600;color:var(--primary);">$${p.total.toFixed(2)}</td>
+            <td style="font-size:0.75rem;color:var(--fg-muted);">${p.date}</td>
+          </tr>`).join('')}</tbody></table></div>`;
+      }
+
+      // Activity
+      const ap = document.getElementById('activityPanel');
+      if (state.activityLog.length === 0) {
+        ap.innerHTML = `<div class="table-empty">${SVG.activity.replace('16', '40')}<p>No hay actividad registrada</p><span>Los movimientos de los usuarios apareceran aqui</span></div>`;
+      } else {
+        ap.innerHTML = `<div class="table-wrap"><table><thead><tr><th>Usuario</th><th>Accion</th><th>Detalle</th><th>Fecha</th></tr></thead><tbody>${state.activityLog.map(l => `
+          <tr>
+            <td>${l.userName}</td>
+            <td><span class="badge badge-primary">${l.action}</span></td>
+            <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--fg-muted);">${l.detail}</td>
+            <td style="font-size:0.75rem;color:var(--fg-muted);">${l.date}</td>
+          </tr>`).join('')}</tbody></table></div>`;
+      }
+
+      // Users
+      document.getElementById('usersPanel').innerHTML = `<div class="table-wrap"><table><thead><tr><th>ID</th><th>Nombre</th><th>Cedula</th><th>Correo</th><th>Rol</th></tr></thead><tbody>${state.users.map(u => `
+        <tr>
+          <td style="font-family:monospace;color:var(--fg-muted);font-size:0.75rem;">${u.id.slice(-6)}</td>
+          <td>${u.nombre}</td>
+          <td style="color:var(--fg-muted);">${u.cedula}</td>
+          <td style="color:var(--fg-muted);">${u.correo}</td>
+          <td><span class="badge ${u.role === 'admin' ? 'badge-primary' : 'badge-outline'}">${u.role === 'admin' ? 'Admin' : 'Usuario'}</span></td>
+        </tr>`).join('')}</tbody></table></div>`;
+    }
+
+    function renderAll() {
+      renderHeader();
+      renderCategories();
+      renderGames();
+    }
+
+    // ==================== ACTIONS ====================
+    // Auth
+    function openLogin() { document.getElementById('loginOverlay').classList.add('open'); }
+    function closeLogin() {
+      document.getElementById('loginOverlay').classList.remove('open');
+      document.getElementById('loginAlert').innerHTML = '';
+      document.getElementById('registerAlert').innerHTML = '';
+      clearRegErrors();
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass = document.getElementById('loginPassword').value.trim();
+      const alertEl = document.getElementById('loginAlert');
+
+      if (!email || !pass) {
+        alertEl.innerHTML = `<div class="alert alert-error">${SVG.alertCircle} Todos los campos son obligatorios</div>`;
+        return;
+      }
+
+      const user = state.users.find(u => u.correo === email && u.password === pass);
+      if (user) {
+        state.currentUser = user;
+        state.cart = [];
+        logActivity("Inicio de sesion", `${user.nombre} inicio sesion como ${user.role}`);
+        closeLogin();
+        document.getElementById('loginEmail').value = '';
+        document.getElementById('loginPassword').value = '';
+        renderAll();
+      } else {
+        alertEl.innerHTML = `<div class="alert alert-error">${SVG.alertCircle} Correo o contrasena incorrectos</div>`;
+      }
+    }
+
+    function handleLogout() {
+      if (state.currentUser) {
+        logActivity("Cierre de sesion", `${state.currentUser.nombre} cerro sesion`);
+      }
+      state.currentUser = null;
+      state.cart = [];
+      renderAll();
+    }
+
+    function clearRegErrors() {
+      ['Nombre','Cedula','Correo','Direccion','Password'].forEach(f => {
+        document.getElementById('err' + f).textContent = '';
+      });
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      clearRegErrors();
+      document.getElementById('registerAlert').innerHTML = '';
+
+      const nombre = document.getElementById('regNombre').value.trim();
+      const cedula = document.getElementById('regCedula').value.trim();
+      const correo = document.getElementById('regCorreo').value.trim();
+      const direccion = document.getElementById('regDireccion').value.trim();
+      const password = document.getElementById('regPassword').value.trim();
+
+      let valid = true;
+      if (!nombre) { document.getElementById('errNombre').textContent = 'El nombre es obligatorio'; valid = false; }
+      if (!cedula) { document.getElementById('errCedula').textContent = 'La cedula es obligatoria'; valid = false; }
+      else if (cedula.length < 6) { document.getElementById('errCedula').textContent = 'La cedula debe tener al menos 6 caracteres'; valid = false; }
+      if (!correo) { document.getElementById('errCorreo').textContent = 'El correo es obligatorio'; valid = false; }
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) { document.getElementById('errCorreo').textContent = 'Formato de correo invalido'; valid = false; }
+      if (!direccion) { document.getElementById('errDireccion').textContent = 'La direccion es obligatoria'; valid = false; }
+      if (!password) { document.getElementById('errPassword').textContent = 'La contrasena es obligatoria'; valid = false; }
+      else if (password.length < 4) { document.getElementById('errPassword').textContent = 'La contrasena debe tener al menos 4 caracteres'; valid = false; }
+
+      if (!valid) return;
+
+      const exists = state.users.find(u => u.correo === correo || u.cedula === cedula);
+      if (exists) {
+        document.getElementById('errCorreo').textContent = 'Ya existe un usuario con este correo o cedula';
+        return;
+      }
+
+      state.users.push({ id: generateId(), nombre, cedula, correo, direccion, password, role: 'user' });
+      document.getElementById('registerAlert').innerHTML = `<div class="alert alert-success">${SVG.checkCircle} Registro exitoso. Ahora puedes iniciar sesion.</div>`;
+      document.getElementById('regNombre').value = '';
+      document.getElementById('regCedula').value = '';
+      document.getElementById('regCorreo').value = '';
+      document.getElementById('regDireccion').value = '';
+      document.getElementById('regPassword').value = '';
+    }
+
+    // Tabs
+    function switchAuthTab(tab) {
+      document.querySelectorAll('#authTabs .tab-btn').forEach((b, i) => b.classList.toggle('active', i === (tab === 'login' ? 0 : 1)));
+      document.getElementById('loginPanel').classList.toggle('active', tab === 'login');
+      document.getElementById('registerPanel').classList.toggle('active', tab === 'register');
+    }
+
+    function switchAdminTab(tab) {
+      const tabs = ['purchases', 'activity', 'users'];
+      document.querySelectorAll('#adminTabs .tab-btn').forEach((b, i) => b.classList.toggle('active', tabs[i] === tab));
+      tabs.forEach(t => document.getElementById(t + 'Panel').classList.toggle('active', t === tab));
+    }
+
+    // Categories
+    function selectCategory(cat) {
+      state.selectedCategory = cat;
+      renderCategories();
+      renderGames();
+    }
+
+    // Search
+    function handleSearch(query) {
+      state.searchQuery = query;
+      document.getElementById('searchDesktop').value = query;
+      document.getElementById('searchMobile').value = query;
+      renderGames();
+    }
+
+    // Cart
+    function openCart() {
+      renderCart();
+      document.getElementById('cartOverlay').classList.add('open');
+      document.getElementById('cartSheet').classList.add('open');
+    }
+
+    function closeCart() {
+      document.getElementById('cartOverlay').classList.remove('open');
+      document.getElementById('cartSheet').classList.remove('open');
+    }
+
+    function addToCart(gameId) {
+      const game = state.games.find(g => g.id === gameId);
+      if (!game) return;
+      const existing = state.cart.find(i => i.game.id === gameId);
+      if (existing) {
+        if (existing.quantity >= game.stock) return;
+        existing.quantity++;
+      } else {
+        state.cart.push({ game, quantity: 1 });
+      }
+      logActivity("Agregar al carrito", `Agrego "${game.name}" al carrito`);
+      renderHeader();
+      renderGames();
+    }
+
+    function removeFromCart(gameId) {
+      const item = state.cart.find(i => i.game.id === gameId);
+      state.cart = state.cart.filter(i => i.game.id !== gameId);
+      if (item) logActivity("Remover del carrito", `Removio "${item.game.name}" del carrito`);
+      renderCart();
+      renderHeader();
+      renderGames();
+    }
+
+    function updateQty(gameId, qty) {
+      if (qty <= 0) { removeFromCart(gameId); return; }
+      const item = state.cart.find(i => i.game.id === gameId);
+      if (item) item.quantity = Math.min(qty, item.game.stock);
+      renderCart();
+      renderHeader();
+    }
+
+    function clearCart() {
+      state.cart = [];
+      logActivity("Vaciar carrito", "Vacio el carrito de compras");
+      renderCart();
+      renderHeader();
+      renderGames();
+    }
+
+    function handleCheckout() {
+      if (!state.currentUser || state.cart.length === 0) return;
+      const total = getCartTotal();
+      state.purchases.unshift({
+        id: generateId(),
+        userId: state.currentUser.id,
+        userName: state.currentUser.nombre,
+        items: JSON.parse(JSON.stringify(state.cart)),
+        total,
+        date: getDate()
+      });
+      state.cart.forEach(item => {
+        const game = state.games.find(g => g.id === item.game.id);
+        if (game) game.stock -= item.quantity;
+      });
+      logActivity("Compra realizada", `Compro ${state.cart.length} producto(s) por $${total.toFixed(2)}`);
+      state.cart = [];
+
+      // Show success
+      const body = document.getElementById('cartBody');
+      document.getElementById('cartFooter').style.display = 'none';
+      body.innerHTML = `
+        <div class="purchase-success">
+          <div class="purchase-success-icon">${SVG.check}</div>
+          <h4>Compra exitosa</h4>
+          <p>Tu pedido ha sido procesado correctamente.</p>
+        </div>`;
+      setTimeout(() => { closeCart(); renderAll(); }, 2500);
+    }
+
+    // Admin
+    function openAdmin() {
+      renderAdmin();
+      document.getElementById('adminOverlay').classList.add('open');
+    }
+    function closeAdmin() { document.getElementById('adminOverlay').classList.remove('open'); }
+
+    // ==================== EVENTS ====================
+    document.getElementById('searchDesktop').addEventListener('input', e => handleSearch(e.target.value));
+    document.getElementById('searchMobile').addEventListener('input', e => handleSearch(e.target.value));
+
+    // Close modals on overlay click
+    document.getElementById('loginOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeLogin(); });
+    document.getElementById('adminOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeAdmin(); });
+
+    // Close on Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { closeLogin(); closeCart(); closeAdmin(); }
+    });
+
+    // ==================== INIT ====================
+    renderAll();
+  </script>
+
+  <!-- Hide mobile utility -->
+  <style>
+    @media (max-width: 767px) { .hide-mobile { display: none; } }
+  </style>
+</body>
+</html>
